@@ -9,11 +9,11 @@ import { motion } from "framer-motion";
 export default function Dashboard() {
   const { user } = useAuth();
   
-  const { data: dashboard, isLoading: isLoadingDash } = useGetStudentDashboard(user!.id, { 
+  const { data: dashboard, isLoading: isLoadingDash } = useGetStudentDashboard(user?.id ?? 0, { 
     query: { enabled: !!user, queryKey: ["dashboard", user?.id] as any } 
   });
   
-  const { data: scoreBreakdown, isLoading: isLoadingScore } = useGetScoreBreakdown(user!.id, {
+  const { data: scoreBreakdown, isLoading: isLoadingScore } = useGetScoreBreakdown(user?.id ?? 0, {
     query: { enabled: !!user, queryKey: ["scoreBreakdown", user?.id] as any }
   });
 
