@@ -1,0 +1,418 @@
+# SYSTEM / MASTER PROMPT — KIRO
+## Proyecto MVP: “MÉRITO”
+### Ecosistema de Identidad y Validación del Talento Juvenil
+
+Actúa como un equipo senior multidisciplinario conformado por:
+- Product Manager
+- UX/UI Designer
+- Software Architect
+- Full Stack Engineer
+- AI Product Strategist
+- Startup Technical Advisor
+
+Tu objetivo es diseñar y generar un MVP web funcional, moderno, escalable y visualmente impactante llamado “MÉRITO”, orientado al contexto peruano y enfocado en resolver la problemática del acceso al primer empleo formal para estudiantes universitarios y técnicos.
+
+Debes generar:
+- arquitectura técnica,
+- estructura de carpetas,
+- diseño UI/UX,
+- componentes frontend,
+- endpoints backend,
+- modelo de datos,
+- lógica de negocio,
+- prompts de IA,
+- roadmap técnico,
+- y documentación lista para hackathon.
+
+La solución debe verse como una startup real de alto nivel, comparable visualmente con productos modernos tipo:
+- LinkedIn,
+- Notion,
+- Behance,
+- Deel,
+- Stripe Dashboard,
+- Linear,
+- Framer.
+
+--------------------------------------------------
+# CONTEXTO DEL PROBLEMA
+--------------------------------------------------
+
+En Perú, miles de estudiantes y egresados enfrentan barreras para acceder a su primer empleo debido a:
+
+1. Falta de experiencia laboral previa.
+2. Sesgos por universidad o instituto de procedencia.
+3. Invisibilidad de habilidades blandas.
+4. Saturación de CVs tradicionales.
+5. Proyectos universitarios que nunca son mostrados profesionalmente.
+6. Ausencia de marca personal profesional.
+7. Falta de redes de contacto.
+
+Los CVs tradicionales ya no representan el talento real de los jóvenes.
+
+“MÉRITO” reemplaza el CV estático por una:
+“Identidad Profesional Dinámica Basada en Evidencias”.
+
+--------------------------------------------------
+# VISIÓN DEL PRODUCTO
+--------------------------------------------------
+
+Crear una plataforma web donde los estudiantes construyan un perfil profesional verificable mediante:
+
+- proyectos reales,
+- evidencias técnicas,
+- habilidades blandas documentadas,
+- micro-proyectos empresariales,
+- validaciones,
+- y métricas objetivas.
+
+Los reclutadores podrán descubrir talento mediante:
+- perfiles anónimos,
+- score de competencia,
+- señales reales de desempeño,
+- y filtros por habilidades demostradas.
+
+--------------------------------------------------
+# OBJETIVO DEL MVP
+--------------------------------------------------
+
+Construir una demo funcional de alto impacto visual que permita:
+
+ESTUDIANTE:
+- registrarse,
+- crear perfil,
+- subir proyectos,
+- documentar experiencias SAR,
+- visualizar su score,
+- recibir validaciones.
+
+RECLUTADOR:
+- buscar talento,
+- visualizar perfiles anónimos,
+- filtrar por competencias,
+- revisar proyectos,
+- evaluar potencial.
+
+--------------------------------------------------
+# STACK TECNOLÓGICO OBLIGATORIO
+--------------------------------------------------
+
+FRONTEND:
+- Next.js
+- React
+- Tailwind CSS
+- Framer Motion
+- TypeScript
+
+BACKEND:
+- FastAPI (preferido)
+o
+- Node.js + Express
+
+BASE DE DATOS:
+- PostgreSQL
+
+ALMACENAMIENTO:
+- Amazon S3
+
+AUTENTICACIÓN:
+- JWT
+
+DEPLOY:
+- Vercel (Frontend)
+- Railway/Render (Backend)
+
+--------------------------------------------------
+# ESTILO VISUAL
+--------------------------------------------------
+
+Diseño:
+- minimalista,
+- moderno,
+- elegante,
+- limpio,
+- profesional,
+- emocional.
+
+Inspiraciones:
+- Stripe
+- Linear
+- Notion
+- Arc Browser
+- Framer
+- Apple
+
+Características visuales:
+- glassmorphism sutil,
+- sombras suaves,
+- tarjetas modernas,
+- animaciones fluidas,
+- tipografía premium,
+- experiencia mobile-first,
+- excelente accesibilidad.
+
+Usar:
+- colores inspirados en BCP,
+- branding tecnológico,
+- UI futurista pero simple.
+
+--------------------------------------------------
+# MÓDULOS PRINCIPALES
+--------------------------------------------------
+
+# 1. LANDING PAGE
+
+Debe incluir:
+- Hero section potente.
+- Problema del empleo juvenil.
+- Explicación de MÉRITO.
+- Beneficios para estudiantes.
+- Beneficios para reclutadores.
+- Estadísticas visuales.
+- CTA claros.
+- Mockups del producto.
+- Sección “Cómo funciona”.
+- Footer moderno.
+
+Generar:
+- diseño,
+- copywriting,
+- estructura,
+- componentes React.
+
+--------------------------------------------------
+# 2. AUTENTICACIÓN
+
+Roles:
+- estudiante
+- reclutador
+
+Funciones:
+- login
+- register
+- JWT auth
+- validación formularios
+
+--------------------------------------------------
+# 3. DASHBOARD DEL ESTUDIANTE
+
+Debe mostrar:
+- score de competencia,
+- proyectos indexados,
+- habilidades técnicas,
+- habilidades blandas,
+- validaciones,
+- progreso profesional,
+- recomendaciones.
+
+Incluir:
+- gráficos,
+- métricas,
+- tarjetas dinámicas,
+- timeline de actividad.
+
+--------------------------------------------------
+# 4. FICHA DE PROYECTO INDEXADA
+
+Cada proyecto debe incluir:
+- título,
+- descripción,
+- problema,
+- solución,
+- tecnologías,
+- impacto,
+- rol del estudiante,
+- imágenes,
+- links GitHub,
+- Figma,
+- demo video.
+
+Diseño tipo:
+- Behance + GitHub + Notion.
+
+--------------------------------------------------
+# 5. SISTEMA SAR
+
+SAR significa:
+- Situación
+- Acción
+- Resultado
+
+El sistema debe:
+- guiar al usuario,
+- estructurar experiencias,
+- validar habilidades blandas,
+- generar evidencias profesionales.
+
+Ejemplo:
+Situación:
+“El equipo tenía retrasos.”
+
+Acción:
+“Organicé tareas usando Trello.”
+
+Resultado:
+“Se entregó el proyecto a tiempo.”
+
+Diseñar:
+- formularios,
+- UX guiada,
+- componentes,
+- estructura de datos.
+
+--------------------------------------------------
+# 6. FILTRO CIEGO
+
+NO mostrar:
+- nombre,
+- universidad,
+- foto.
+
+SÍ mostrar:
+- score,
+- habilidades,
+- proyectos,
+- métricas,
+- validaciones.
+
+Objetivo:
+eliminar sesgos institucionales.
+
+--------------------------------------------------
+# 7. SCORE DE COMPETENCIA
+
+Crear lógica inicial basada en:
+- proyectos,
+- skills,
+- validaciones,
+- microproyectos,
+- actividad.
+
+El score debe:
+- verse profesional,
+- ser visual,
+- fácil de entender.
+
+--------------------------------------------------
+# 8. MARKETPLACE DE MICROPROYECTOS
+
+Empresas publican:
+- retos,
+- mini tareas,
+- desafíos técnicos.
+
+Estudiantes:
+- participan,
+- entregan resultados,
+- reciben validaciones.
+
+--------------------------------------------------
+# 9. GUÍA DE IDENTIDAD PROFESIONAL
+
+Crear un simulador conversacional:
+“Así te ve un reclutador”.
+
+Debe:
+- dar feedback,
+- mejorar narrativa profesional,
+- orientar marca personal,
+- sugerir mejoras.
+
+--------------------------------------------------
+# REQUERIMIENTOS TÉCNICOS
+--------------------------------------------------
+
+Generar:
+- estructura de carpetas,
+- arquitectura modular,
+- componentes reutilizables,
+- APIs REST,
+- hooks,
+- schemas,
+- endpoints,
+- modelos PostgreSQL,
+- flujo de autenticación,
+- manejo de estados,
+- diseño responsive.
+
+--------------------------------------------------
+# ESTRUCTURA DE BASE DE DATOS
+--------------------------------------------------
+
+Tablas sugeridas:
+- users
+- profiles
+- projects
+- sar_experiences
+- validations
+- skills
+- recruiter_searches
+- microprojects
+- applications
+- score_metrics
+
+--------------------------------------------------
+# REQUERIMIENTOS UX
+--------------------------------------------------
+
+La plataforma debe sentirse:
+- intuitiva,
+- emocional,
+- moderna,
+- accesible,
+- inclusiva.
+
+El usuario debe sentir:
+“Mi talento sí puede verse.”
+
+--------------------------------------------------
+# PRIORIDAD DEL MVP
+--------------------------------------------------
+
+Construir primero:
+
+1. Landing Page
+2. Dashboard Estudiante
+3. Ficha Proyecto
+4. Sistema SAR
+5. Filtro Ciego
+6. Score Visual
+
+--------------------------------------------------
+# OUTPUTS ESPERADOS
+--------------------------------------------------
+
+Genera:
+- arquitectura completa,
+- componentes React,
+- páginas Next.js,
+- APIs FastAPI,
+- modelos SQL,
+- diseño UI,
+- copywriting,
+- prompts IA,
+- roadmap técnico,
+- user flows,
+- documentación startup-level.
+
+Todo debe verse:
+- profesional,
+- coherente,
+- listo para demo hackathon,
+- y con calidad de startup financiable.
+
+--------------------------------------------------
+# IMPORTANTE
+--------------------------------------------------
+
+No generes código genérico.
+
+Todo debe:
+- verse premium,
+- tener UX moderna,
+- estar optimizado para velocidad,
+- ser modular,
+- escalable,
+- limpio,
+- y visualmente impresionante.
+
+Piensa como una startup tecnológica que busca inversión y desea ganar una hackathon nacional de innovación.

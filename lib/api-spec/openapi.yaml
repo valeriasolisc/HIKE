@@ -1,22 +1,39 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: MÉRITO API — Talent identity & validation platform
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Authentication
+  - name: profiles
+    description: Student profiles
+  - name: projects
+    description: Portfolio projects
+  - name: sar
+    description: SAR experiences (Situation-Action-Result)
+  - name: skills
+    description: Skills
+  - name: validations
+    description: Peer/recruiter validations
+  - name: microprojects
+    description: Micro-project challenges
+  - name: recruiter
+    description: Recruiter talent search
+  - name: dashboard
+    description: Dashboard aggregates
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +41,1137 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ── AUTH ──────────────────────────────────────────────────────────────────
+  /auth/register:
+    post:
+      operationId: register
+      tags: [auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "201":
+          description: Registered
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "409":
+          description: Email already in use
+
+  /auth/login:
+    post:
+      operationId: login
+      tags: [auth]
+      summary: Login with email/password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+
+  /auth/me:
+    get:
+      operationId: getMe
+      tags: [auth]
+      summary: Get current authenticated user
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          description: Unauthorized
+
+  # ── PROFILES ──────────────────────────────────────────────────────────────
+  /profiles/{userId}:
+    get:
+      operationId: getProfile
+      tags: [profiles]
+      summary: Get a student profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        "404":
+          description: Not found
+
+    patch:
+      operationId: updateProfile
+      tags: [profiles]
+      summary: Update student profile
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+
+  # ── PROJECTS ──────────────────────────────────────────────────────────────
+  /projects:
+    get:
+      operationId: listProjects
+      tags: [projects]
+      summary: List all public projects
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+        - name: skill
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+    post:
+      operationId: createProject
+      tags: [projects]
+      summary: Create a new project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+
+  /projects/{id}:
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Get a project by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "404":
+          description: Not found
+
+    patch:
+      operationId: updateProject
+      tags: [projects]
+      summary: Update a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectUpdate"
+      responses:
+        "200":
+          description: Updated project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+
+    delete:
+      operationId: deleteProject
+      tags: [projects]
+      summary: Delete a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── SAR EXPERIENCES ───────────────────────────────────────────────────────
+  /sar:
+    get:
+      operationId: listSarExperiences
+      tags: [sar]
+      summary: List SAR experiences for the authenticated user
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: SAR experiences
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SarExperience"
+
+    post:
+      operationId: createSarExperience
+      tags: [sar]
+      summary: Create a SAR experience
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SarInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SarExperience"
+
+  /sar/{id}:
+    get:
+      operationId: getSarExperience
+      tags: [sar]
+      summary: Get a SAR experience
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: SAR experience
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SarExperience"
+
+    patch:
+      operationId: updateSarExperience
+      tags: [sar]
+      summary: Update a SAR experience
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SarUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SarExperience"
+
+    delete:
+      operationId: deleteSarExperience
+      tags: [sar]
+      summary: Delete a SAR experience
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── SKILLS ────────────────────────────────────────────────────────────────
+  /skills:
+    get:
+      operationId: listSkills
+      tags: [skills]
+      summary: List skills for a user
+      parameters:
+        - name: userId
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Skills
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Skill"
+
+    post:
+      operationId: addSkill
+      tags: [skills]
+      summary: Add a skill
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Skill"
+
+  /skills/{id}:
+    delete:
+      operationId: deleteSkill
+      tags: [skills]
+      summary: Remove a skill
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # ── VALIDATIONS ───────────────────────────────────────────────────────────
+  /validations:
+    get:
+      operationId: listValidations
+      tags: [validations]
+      summary: List validations received by a user
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Validations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Validation"
+
+    post:
+      operationId: createValidation
+      tags: [validations]
+      summary: Create a validation for a student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidationInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Validation"
+
+  # ── MICROPROJECTS ─────────────────────────────────────────────────────────
+  /microprojects:
+    get:
+      operationId: listMicroprojects
+      tags: [microprojects]
+      summary: List open micro-project challenges
+      parameters:
+        - name: skill
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: Micro-projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Microproject"
+
+    post:
+      operationId: createMicroproject
+      tags: [microprojects]
+      summary: Post a new micro-project challenge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MicroprojectInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Microproject"
+
+  /microprojects/{id}:
+    get:
+      operationId: getMicroproject
+      tags: [microprojects]
+      summary: Get a micro-project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Micro-project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Microproject"
+
+  /microprojects/{id}/apply:
+    post:
+      operationId: applyMicroproject
+      tags: [microprojects]
+      summary: Apply to a micro-project challenge
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationInput"
+      responses:
+        "201":
+          description: Applied
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Application"
+
+  # ── RECRUITER ─────────────────────────────────────────────────────────────
+  /recruiter/search:
+    get:
+      operationId: searchTalent
+      tags: [recruiter]
+      summary: Search for talent (blind filter — no names, photos, or universities)
+      parameters:
+        - name: skill
+          in: query
+          schema:
+            type: string
+        - name: minScore
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: Anonymous talent profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BlindProfile"
+
+  # ── DASHBOARD AGGREGATES (wow endpoints) ──────────────────────────────────
+  /dashboard/student/{userId}:
+    get:
+      operationId: getStudentDashboard
+      tags: [dashboard]
+      summary: Get student dashboard summary — score, project count, skill breakdown, recent activity
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudentDashboard"
+
+  /dashboard/score/{userId}:
+    get:
+      operationId: getScoreBreakdown
+      tags: [dashboard]
+      summary: Get detailed competence score breakdown
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Score breakdown
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScoreBreakdown"
+
+  /dashboard/activity/{userId}:
+    get:
+      operationId: getActivityFeed
+      tags: [dashboard]
+      summary: Get recent activity timeline for a student (returns last 10 items)
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Activity feed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
+  /dashboard/stats:
+    get:
+      operationId: getPlatformStats
+      tags: [dashboard]
+      summary: Platform-wide stats for landing page
+      responses:
+        "200":
+          description: Platform stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlatformStats"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    # ── AUTH SCHEMAS ──────────────────────────────────────────────────────
+    RegisterInput:
+      type: object
+      required: [name, email, password, role]
+      properties:
+        name:
+          type: string
+          minLength: 2
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+        role:
+          type: string
+          enum: [student, recruiter]
+
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    AuthResponse:
+      type: object
+      required: [token, user]
+      properties:
+        token:
+          type: string
+        user:
+          $ref: "#/components/schemas/User"
+
+    User:
+      type: object
+      required: [id, name, email, role, createdAt]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [student, recruiter]
+        avatarUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    # ── PROFILE SCHEMAS ───────────────────────────────────────────────────
+    Profile:
+      type: object
+      required: [userId, name, bio, score, projectCount, skillCount, validationCount]
+      properties:
+        userId:
+          type: integer
+        name:
+          type: string
+        bio:
+          type: ["string", "null"]
+        headline:
+          type: ["string", "null"]
+        avatarUrl:
+          type: ["string", "null"]
+        location:
+          type: ["string", "null"]
+        githubUrl:
+          type: ["string", "null"]
+        linkedinUrl:
+          type: ["string", "null"]
+        portfolioUrl:
+          type: ["string", "null"]
+        score:
+          type: integer
+        projectCount:
+          type: integer
+        skillCount:
+          type: integer
+        validationCount:
+          type: integer
+
+    ProfileUpdate:
+      type: object
+      properties:
+        bio:
+          type: string
+        headline:
+          type: string
+        location:
+          type: string
+        githubUrl:
+          type: string
+        linkedinUrl:
+          type: string
+        portfolioUrl:
+          type: string
+
+    # ── PROJECT SCHEMAS ───────────────────────────────────────────────────
+    Project:
+      type: object
+      required: [id, userId, title, description, problem, solution, impact, role, technologies, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        problem:
+          type: string
+        solution:
+          type: string
+        impact:
+          type: string
+        role:
+          type: string
+        technologies:
+          type: array
+          items:
+            type: string
+        imageUrl:
+          type: ["string", "null"]
+        githubUrl:
+          type: ["string", "null"]
+        figmaUrl:
+          type: ["string", "null"]
+        demoUrl:
+          type: ["string", "null"]
+        videoUrl:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    ProjectInput:
+      type: object
+      required: [title, description, problem, solution, impact, role, technologies]
+      properties:
+        title:
+          type: string
+          minLength: 2
+        description:
+          type: string
+        problem:
+          type: string
+        solution:
+          type: string
+        impact:
+          type: string
+        role:
+          type: string
+        technologies:
+          type: array
+          items:
+            type: string
+        imageUrl:
+          type: string
+        githubUrl:
+          type: string
+        figmaUrl:
+          type: string
+        demoUrl:
+          type: string
+        videoUrl:
+          type: string
+
+    ProjectUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        problem:
+          type: string
+        solution:
+          type: string
+        impact:
+          type: string
+        role:
+          type: string
+        technologies:
+          type: array
+          items:
+            type: string
+        imageUrl:
+          type: string
+        githubUrl:
+          type: string
+        figmaUrl:
+          type: string
+        demoUrl:
+          type: string
+        videoUrl:
+          type: string
+
+    # ── SAR SCHEMAS ───────────────────────────────────────────────────────
+    SarExperience:
+      type: object
+      required: [id, userId, situacion, accion, resultado, softSkills, createdAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        situacion:
+          type: string
+        accion:
+          type: string
+        resultado:
+          type: string
+        softSkills:
+          type: array
+          items:
+            type: string
+        context:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    SarInput:
+      type: object
+      required: [situacion, accion, resultado, softSkills]
+      properties:
+        situacion:
+          type: string
+          minLength: 10
+        accion:
+          type: string
+          minLength: 10
+        resultado:
+          type: string
+          minLength: 10
+        softSkills:
+          type: array
+          items:
+            type: string
+        context:
+          type: string
+
+    SarUpdate:
+      type: object
+      properties:
+        situacion:
+          type: string
+        accion:
+          type: string
+        resultado:
+          type: string
+        softSkills:
+          type: array
+          items:
+            type: string
+        context:
+          type: string
+
+    # ── SKILL SCHEMAS ─────────────────────────────────────────────────────
+    Skill:
+      type: object
+      required: [id, userId, name, category, level]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        name:
+          type: string
+        category:
+          type: string
+          enum: [technical, soft, tool, language]
+        level:
+          type: string
+          enum: [beginner, intermediate, advanced, expert]
+
+    SkillInput:
+      type: object
+      required: [name, category, level]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        category:
+          type: string
+          enum: [technical, soft, tool, language]
+        level:
+          type: string
+          enum: [beginner, intermediate, advanced, expert]
+
+    # ── VALIDATION SCHEMAS ────────────────────────────────────────────────
+    Validation:
+      type: object
+      required: [id, validatedUserId, validatorId, skillName, message, createdAt]
+      properties:
+        id:
+          type: integer
+        validatedUserId:
+          type: integer
+        validatorId:
+          type: integer
+        validatorName:
+          type: ["string", "null"]
+        skillName:
+          type: string
+        message:
+          type: string
+        rating:
+          type: ["integer", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    ValidationInput:
+      type: object
+      required: [validatedUserId, skillName, message]
+      properties:
+        validatedUserId:
+          type: integer
+        skillName:
+          type: string
+        message:
+          type: string
+          minLength: 10
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+
+    # ── MICROPROJECT SCHEMAS ──────────────────────────────────────────────
+    Microproject:
+      type: object
+      required: [id, companyName, title, description, requiredSkills, difficulty, duration, rewardPoints, status, applicantCount, createdAt]
+      properties:
+        id:
+          type: integer
+        companyName:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        requiredSkills:
+          type: array
+          items:
+            type: string
+        difficulty:
+          type: string
+          enum: [easy, medium, hard]
+        duration:
+          type: string
+        rewardPoints:
+          type: integer
+        status:
+          type: string
+          enum: [open, closed, reviewing]
+        applicantCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+
+    MicroprojectInput:
+      type: object
+      required: [title, description, requiredSkills, difficulty, duration, rewardPoints]
+      properties:
+        title:
+          type: string
+          minLength: 5
+        description:
+          type: string
+        requiredSkills:
+          type: array
+          items:
+            type: string
+        difficulty:
+          type: string
+          enum: [easy, medium, hard]
+        duration:
+          type: string
+        rewardPoints:
+          type: integer
+
+    Application:
+      type: object
+      required: [id, microprojectId, userId, proposal, status, createdAt]
+      properties:
+        id:
+          type: integer
+        microprojectId:
+          type: integer
+        userId:
+          type: integer
+        proposal:
+          type: string
+        status:
+          type: string
+          enum: [pending, accepted, rejected]
+        createdAt:
+          type: string
+          format: date-time
+
+    ApplicationInput:
+      type: object
+      required: [proposal]
+      properties:
+        proposal:
+          type: string
+          minLength: 20
+
+    # ── RECRUITER SCHEMAS ─────────────────────────────────────────────────
+    BlindProfile:
+      type: object
+      required: [anonymousId, score, topSkills, projectCount, validationCount, sarCount]
+      properties:
+        anonymousId:
+          type: string
+        score:
+          type: integer
+        topSkills:
+          type: array
+          items:
+            type: string
+        projectCount:
+          type: integer
+        validationCount:
+          type: integer
+        sarCount:
+          type: integer
+        activityLevel:
+          type: string
+          enum: [low, medium, high]
+
+    # ── DASHBOARD SCHEMAS ─────────────────────────────────────────────────
+    StudentDashboard:
+      type: object
+      required: [userId, score, projectCount, skillCount, validationCount, sarCount, recentProjects, topSkills]
+      properties:
+        userId:
+          type: integer
+        score:
+          type: integer
+        scoreChange:
+          type: integer
+        projectCount:
+          type: integer
+        skillCount:
+          type: integer
+        validationCount:
+          type: integer
+        sarCount:
+          type: integer
+        recentProjects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        topSkills:
+          type: array
+          items:
+            $ref: "#/components/schemas/Skill"
+
+    ScoreBreakdown:
+      type: object
+      required: [userId, totalScore, projectsScore, skillsScore, validationsScore, sarScore, activityScore]
+      properties:
+        userId:
+          type: integer
+        totalScore:
+          type: integer
+        projectsScore:
+          type: integer
+        skillsScore:
+          type: integer
+        validationsScore:
+          type: integer
+        sarScore:
+          type: integer
+        activityScore:
+          type: integer
+        level:
+          type: string
+          enum: [emerging, developing, proficient, expert]
+        nextMilestone:
+          type: integer
+
+    ActivityItem:
+      type: object
+      required: [id, type, description, createdAt]
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          enum: [project_added, skill_added, validation_received, sar_created, microproject_applied]
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    PlatformStats:
+      type: object
+      required: [totalStudents, totalProjects, totalValidations, totalSkills, avgScore]
+      properties:
+        totalStudents:
+          type: integer
+        totalProjects:
+          type: integer
+        totalValidations:
+          type: integer
+        totalSkills:
+          type: integer
+        avgScore:
+          type: integer
