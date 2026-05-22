@@ -21,10 +21,10 @@ const registerSchema = z.object({
 export default function Register() {
   const registerMutation = useRegister();
   const { setAuth } = useAuth();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
 
-  const isRecruiter = location.includes("role=recruiter");
+  const isRecruiter = new URLSearchParams(window.location.search).get("role") === "recruiter";
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
