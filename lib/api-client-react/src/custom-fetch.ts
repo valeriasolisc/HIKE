@@ -357,7 +357,7 @@ export async function customFetch<T = unknown>(
       token = await _authTokenGetter();
     }
     if (!token && typeof window !== "undefined") {
-      token = localStorage.getItem("merito_token");
+      token = localStorage.getItem("hike_token");
     }
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
