@@ -1,0 +1,23 @@
+PERFIL RECLUTADOR — navegación del sidebar:
+Panel Principal, Microproyectos, Buscar Talento, Postulaciones, Candidatos Guardados, Mensajes.
+Funcionalidad estrella: Filtro Ciego y Modo Anti-sesgo
+Este es el feature más innovador de HIKE para reclutadores. Al explorar candidatos, el reclutador tiene activado por defecto el modo anti-sesgo que oculta completamente: foto de perfil, nombre completo (se reemplaza por "Candidato A", "Candidato B", etc.), edad, género, universidad o institución educativa. Lo que sí es visible: HikeScore y desglose por dimensión, habilidades verificadas con nivel, proyectos completados y sus entregables, experiencias SAR, microproyectos participados y ranking obtenido, validaciones recibidas. El reclutador puede desactivar el modo anti-sesgo manualmente si lo desea, pero la plataforma lo desactiva por defecto para fomentar contrataciones basadas en mérito.
+Comparador anónimo: El reclutador puede seleccionar dos perfiles (Perfil A vs Perfil B) y verlos en una vista de comparación lado a lado. Ambos perfiles se muestran de forma anónima, con sus scores, habilidades y evidencia, sin revelar universidad ni datos personales. El sistema muestra automáticamente el porcentaje de compatibilidad de cada perfil con el microproyecto o posición abierta.
+Explicabilidad del score: Debajo del HikeScore de cada candidato aparece una frase generada automáticamente explicando por qué ese score es así. Ejemplos: "Este candidato destaca por liderazgo demostrado y proyectos reales completados", "Perfil fuerte en habilidades técnicas de backend con 4 microproyectos aprobados".
+Matching automático: Al publicar un microproyecto, el sistema sugiere automáticamente los candidatos más compatibles con un porcentaje de match basado en habilidades requeridas vs habilidades verificadas del candidato.
+Visualización de talento: Gráfico o mapa de calor que muestra qué habilidades predominan entre todos los candidatos que aplicaron a sus microproyectos. Útil para entender el estado del talento disponible.
+Pantalla: Panel Principal (/panel)
+Stats de sus microproyectos activos, postulaciones recibidas, candidatos guardados, contrataciones. Analytics: visitas, postulantes, tasa de finalización, tasa de contratación.
+Pantalla: Microproyectos del Reclutador (/mis-microproyectos)
+Lista de challenges creados con estado (Activo, Pausado, Cerrado) y número de postulantes. Botón crear nuevo microproyecto con formulario: empresa, título, descripción del reto, descripción detallada de cómo se realizará (metodología y entregables), habilidades requeridas, dificultad, duración, HikePoints a otorgar al primer lugar, segundo y tercer lugar, y mínimo de participantes para que el reto sea válido.
+Pantalla: Postulaciones (/postulaciones)
+Lista de entregas de estudiantes. Cada entrada muestra (en modo anónimo por defecto): alias del candidato, microproyecto, fecha de entrega, link al entregable. Acciones: Aprobar con posición (1er, 2do, 3er lugar o participante) lo que determina los HikePoints acreditados, o Rechazar con feedback obligatorio.
+Pantalla: Buscar Talento (/buscar-talento)
+Buscador con filtros: habilidad, nivel, HikeScore mínimo, industria (Fintech, IA, Diseño, Data, Marketing), número mínimo de microproyectos completados. Resultados en modo anónimo por defecto. Card de cada candidato: alias, HikeScore, top habilidades verificadas, número de microproyectos, frase explicativa del score. Botones: "Ver Perfil Completo" y "Guardar Candidato".
+Pantalla: Candidatos Guardados (/candidatos)
+Shortlist organizada. Acceso directo a perfil y botón para enviar mensaje.
+Pantalla: Mensajes (/mensajes)
+Bandeja de conversaciones directas reclutador-estudiante.
+
+MODELO DE MONETIZACIÓN — FUNCIONALIDADES PREMIUM
+La plataforma tiene un plan gratuito y un plan Premium para estudiantes. Las funcionalidades premium son: IA Coach en el dashboard (asistente con recomendaciones personalizadas), score contextual por industria detallado, acceso anticipado a microproyectos antes de que sean públicos, perfil destacado en las búsquedas de reclutadores (aparece primero en resultados), estadísticas avanzadas de cuántos reclutadores vieron el perfil y en qué habilidades se fijaron, y descarga del perfil en formato PDF para compartir fuera de la plataforma. Para reclutadores también hay plan premium con: acceso al comparador anónimo avanzado, visualización de talento por habilidades, matching automático ilimitado y analíticas avanzadas de sus microproyectos.
