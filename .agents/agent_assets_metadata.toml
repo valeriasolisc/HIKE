@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "zfYS-qeqQEqdnx9cVIYFR"
+uri = "file://artifacts/hike/public/logo.png"
+type = "image"
+title = "Person climbing mountain logo"
+
+[[generated]]
+id = "8Wsnqt4kdMWp6fGgM_zGC"
+uri = "file://artifacts/hike/public/hero-illustration.png"
+type = "image"
+title = "Hero illustration climbing"

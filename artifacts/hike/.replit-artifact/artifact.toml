@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "HIKE — Plataforma de Identidad Profesional"
+version = "1.0.0"
+id = "artifacts/hike"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20186
+
+[services.development]
+run = "pnpm --filter @workspace/hike run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/hike", "run", "build" ]
+publicDir = "artifacts/hike/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20186"
+BASE_PATH = "/"
