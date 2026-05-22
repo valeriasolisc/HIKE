@@ -38,7 +38,11 @@ router.post("/microprojects", authMiddleware, async (req, res): Promise<void> =>
     res.status(400).json({ error: parsed.error.message });
     return;
   }
-  const [mp] = await db.insert(microprojectsTable).values(parsed.data).returning();
+  const userId = (req as typeof req & { userId: number }).userId;
+  const [mp] = await db.insert(microprojectsTable).values({
+    ...parsed.data,
+    recruiterId: userId,
+  }).returning();
   const mapped = await mapMicroproject(mp);
   res.status(201).json(GetMicroprojectResponse.parse(mapped));
 });
@@ -70,6 +74,15 @@ router.post("/microprojects/:id/apply", authMiddleware, async (req, res): Promis
     return;
   }
   const userId = (req as typeof req & { userId: number }).userId;
+
+  const existingApp = await db.select().from(applicationsTable)
+    .where(eq(applicationsTable.microprojectId, params.data.id));
+  const alreadyApplied = existingApp.some(a => a.userId === userId);
+  if (alreadyApplied) {
+    res.status(409).json({ error: "Ya has postulado a este microproyecto" });
+    return;
+  }
+
   const [app] = await db.insert(applicationsTable).values({
     microprojectId: params.data.id,
     userId,
@@ -79,7 +92,7 @@ router.post("/microprojects/:id/apply", authMiddleware, async (req, res): Promis
   await db.insert(activityTable).values({
     userId,
     type: "microproject_applied",
-    description: `Applied to a micro-project challenge`,
+    description: `Postulaste a un microproyecto`,
   });
 
   res.status(201).json({ ...app, createdAt: app.createdAt.toISOString() });

@@ -1,0 +1,17 @@
+VERIFICACIÓN DE EMPRESAS Y MODELO MVP
+En el MVP de HIKE no hay registro libre de reclutadores. Solo pueden acceder empresas que HIKE haya invitado y verificado manualmente. Esto elimina el problema de empresas falsas o reclutadores no verificados. En la landing page y en el registro de reclutadores se muestra el mensaje: "El acceso para empresas está disponible solo por invitación en esta etapa. El registro abierto se habilitará en fases posteriores con sistemas avanzados de confianza y seguridad." La sección de Empresas Aliadas Fundadoras en la landing muestra los logos de las empresas verificadas que ya están en la plataforma, generando confianza en los estudiantes.
+
+MODELO DE DATOS
+Usuario: id, nombre, email, contraseña hasheada, rol (Estudiante o Reclutador), foto de perfil url, foto de portada url, carrera, institución, año de egreso, áreas de interés (array), objetivos laborales (array), hike_score calculado, nivel de empleabilidad calculado, fecha de creación.
+Habilidad: id, id del usuario, nombre, categoría (Técnica, Blanda, Herramienta, Idioma), nivel (Básico, Intermedio, Avanzado), descripción de experiencia, certificados (array de urls), links de evidencia (array).
+Proyecto: id, id del usuario, título, descripción, habilidades usadas (array), links (array), archivos adjuntos (array de urls).
+Experiencia SAR: id, id del usuario, situación, acción, resultado, habilidades demostradas (array).
+Microproyecto: id, id del reclutador, empresa, título, descripción general, descripción de metodología y entregables, habilidades requeridas (array), dificultad (Fácil, Medio, Difícil), duración, hike_points primer lugar, hike_points segundo lugar, hike_points tercer lugar, hike_points participante (siempre 1), estado (Activo, Pausado, Cerrado), requisito mínimo de microproyectos previos para acceder.
+Postulación: id, id del microproyecto, id del estudiante, estado (Pendiente, En revisión, Aprobada con posición, Rechazada), posición obtenida (1, 2, 3 o participante), url del entregable, feedback del reclutador, hike_points acreditados, fecha de envío.
+Validación: id, id de la habilidad, id del validador, rol del validador (Estudiante o Reclutador), peso de la validación (mayor si es reclutador), mensaje opcional.
+Logro desbloqueado: id, id del usuario, nombre del logro, descripción, ícono, fecha de desbloqueo.
+Score contextual por industria: id, id del usuario, industria (Fintech, IA, Diseño, Data, Marketing), score calculado, fecha de cálculo.
+Mensaje: id, id del remitente, id del destinatario, cuerpo, leído (booleano), fecha.
+
+CÁLCULO DEL HIKEPOINTS SCORE
+HikeScore = T (habilidades técnicas verificadas × nivel) + B (habilidades blandas verificadas × nivel) + P (proyectos agregados × 10) + V (validaciones recibidas × peso según rol del validador) + R (microproyectos completados × HikePoints del puesto obtenido). Los niveles de empleabilidad son: Junior (0-100 HP), Competitivo (101-300 HP), Destacado (301-600 HP), Top Talent (601+ HP). El score contextual por industria recalcula el peso de cada habilidad según su relevancia en ese sector específico.

@@ -7,6 +7,7 @@ import {
   GetActivityFeedParams, GetActivityFeedResponse,
   GetPlatformStatsResponse,
 } from "@workspace/api-zod";
+import { computeHikeScore } from "../lib/score";
 
 const router: IRouter = Router();
 
@@ -36,14 +37,14 @@ router.get("/dashboard/student/:userId", async (req, res): Promise<void> => {
   const [valCount] = await db.select({ c: count() }).from(validationsTable).where(eq(validationsTable.validatedUserId, userId));
   const [sarCount] = await db.select({ c: count() }).from(sarExperiencesTable).where(eq(sarExperiencesTable.userId, userId));
 
-  const score = Math.min(1000, (projCount.c * 100) + (skillCountR.c * 30) + (valCount.c * 50) + (sarCount.c * 40));
+  const hikeScore = await computeHikeScore(userId);
 
   const recentProjects = await db.select().from(projectsTable).where(eq(projectsTable.userId, userId)).orderBy(desc(projectsTable.createdAt)).limit(3);
   const topSkills = await db.select().from(skillsTable).where(eq(skillsTable.userId, userId)).limit(5);
 
   res.json(GetStudentDashboardResponse.parse({
     userId,
-    score,
+    score: hikeScore.totalScore,
     scoreChange: 0,
     projectCount: projCount.c,
     skillCount: skillCountR.c,
@@ -62,36 +63,18 @@ router.get("/dashboard/score/:userId", async (req, res): Promise<void> => {
   }
   const { userId } = params.data;
 
-  const [projCount] = await db.select({ c: count() }).from(projectsTable).where(eq(projectsTable.userId, userId));
-  const [skillCountR] = await db.select({ c: count() }).from(skillsTable).where(eq(skillsTable.userId, userId));
-  const [valCount] = await db.select({ c: count() }).from(validationsTable).where(eq(validationsTable.validatedUserId, userId));
-  const [sarCount] = await db.select({ c: count() }).from(sarExperiencesTable).where(eq(sarExperiencesTable.userId, userId));
-
-  const projectsScore = Math.min(300, projCount.c * 100);
-  const skillsScore = Math.min(200, skillCountR.c * 30);
-  const validationsScore = Math.min(250, valCount.c * 50);
-  const sarScore = Math.min(200, sarCount.c * 40);
-  const activityScore = Math.min(50, (projCount.c + skillCountR.c + valCount.c + sarCount.c) * 3);
-  const totalScore = projectsScore + skillsScore + validationsScore + sarScore + activityScore;
-
-  let level: "emerging" | "developing" | "proficient" | "expert" = "emerging";
-  if (totalScore >= 700) level = "expert";
-  else if (totalScore >= 400) level = "proficient";
-  else if (totalScore >= 200) level = "developing";
-
-  const milestones = [200, 400, 700, 1000];
-  const nextMilestone = milestones.find(m => m > totalScore) ?? 1000;
+  const hikeScore = await computeHikeScore(userId);
 
   res.json(GetScoreBreakdownResponse.parse({
     userId,
-    totalScore,
-    projectsScore,
-    skillsScore,
-    validationsScore,
-    sarScore,
-    activityScore,
-    level,
-    nextMilestone,
+    totalScore: hikeScore.totalScore,
+    projectsScore: hikeScore.projectsScore,
+    skillsScore: hikeScore.technicalScore + hikeScore.softScore,
+    validationsScore: hikeScore.validationsScore,
+    sarScore: hikeScore.sarScore,
+    activityScore: hikeScore.microprojectsScore,
+    level: hikeScore.level,
+    nextMilestone: hikeScore.nextMilestone,
   }));
 });
 

@@ -1,0 +1,24 @@
+HIKE es una plataforma web tipo SPA (Single Page Application) en español con dos tipos de usuario: Estudiante y Reclutador. Existe también una Landing Page pública antes del login. El idioma de toda la interfaz es español. El rol se elige al registrarse y determina qué pantallas ve cada usuario.
+Identidad visual: El nombre de la plataforma es HIKE. El ícono/logo es una persona escalando una montaña, representando el progreso y la superación profesional. La paleta de colores es azul, morado, blanco y negro. Tipografía Inter o similar, weights 400/500/600/700. Cards blancas con border-radius 12-16px y sombra sutil. Badges en pill shape. La moneda/puntos de la plataforma se llaman HikePoints. Toda referencia a puntos, puntaje o score usa el término HikePoints o HP abreviado.
+
+LANDING PAGE PÚBLICA (/)
+La landing page es la primera impresión de la plataforma y tiene las siguientes secciones en orden:
+Hero: Título principal potente sobre la propuesta de valor de HIKE. Subtítulo explicando que es una plataforma de identidad profesional dinámica para jóvenes peruanos. Dos botones CTA: "Soy Estudiante" y "Soy Reclutador". Ilustración o animación del logo (persona escalando montaña) en la zona derecha del hero. Fondo en azul oscuro o morado oscuro con elementos gráficos de montaña.
+Sección de métricas reales nacionales (Perú): Tres o cuatro stat cards con datos reales sobre el mercado laboral peruano. Ejemplo de datos a mostrar: porcentaje de jóvenes entre 18 y 29 años sin empleo formal en Perú, tiempo promedio que tarda un joven peruano en conseguir su primer empleo, las 5 habilidades técnicas más demandadas nacionalmente por los empleadores, y el porcentaje de ofertas laborales que exigen experiencia previa. Estos números deben ser visualmente impactantes, en tipografía grande y color de acento, con una línea descriptiva debajo de cada uno.
+Sección: Test de empleabilidad (el match): Esta sección es interactiva y funciona como un juego rápido. El usuario (sin necesidad de registrarse) escribe o selecciona 3 habilidades de una lista predefinida y la plataforma le muestra al instante qué tan empleable es en el mercado peruano actual. El resultado se muestra como un porcentaje de empleabilidad con un nivel asociado (por ejemplo: Básico, En desarrollo, Competitivo, Destacado, Top Talent) y un mensaje personalizado que dice algo como "Con estas habilidades tienes alta demanda en el sector Fintech y Data". Al final del resultado aparece un botón "Crea tu perfil HIKE y descubre tu potencial completo" que lleva al registro. La estética de esta sección es similar a esos tests de compatibilidad o juegos de personalidad: visual, dinámico, con una barra de progreso o medidor animado.
+Sección: Cómo funciona HIKE: Tres o cuatro pasos visuales explicando el flujo: registrate, construye tu perfil con evidencia real, completa microproyectos de empresas, consigue empleo. Cada paso tiene un ícono, título y descripción corta.
+Sección: Empresas Aliadas Fundadoras: Logos de las empresas verificadas que ya están en la plataforma. Texto aclaratorio: "En esta etapa, HIKE opera solo con empresas invitadas y verificadas. El acceso abierto se habilitará en fases posteriores con sistemas avanzados de confianza y seguridad." Esto resuelve el problema de verificación de empresas: en el MVP no hay registro libre de reclutadores, solo empresas que HIKE haya invitado y validado manualmente.
+Sección: Testimonios o casos de éxito: Tarjetas con frases de estudiantes que consiguieron empleo o entrevistas a través de HIKE.
+Footer: Links de navegación, redes sociales, términos y condiciones, política de privacidad.
+
+LOGIN Y REGISTRO (/login y /registro)
+El login permite acceder con correo y contraseña, con opción de continuar con cuenta de GitHub (especialmente útil para perfiles técnicos) y opcionalmente con LinkedIn. El correo institucional (terminado en .edu.pe o similar) da acceso verificado automático como Estudiante.
+Al registrarse por primera vez se activa un Onboarding de varios pasos que pregunta al usuario:
+
+Paso 1: ¿Eres estudiante o reclutador?
+Paso 2 (solo estudiantes): Carrera que estudias o estudiaste (con buscador de carreras), nombre de la institución educativa, año de egreso aproximado o si aún estás estudiando.
+Paso 3: Áreas de interés laboral (selección múltiple de tarjetas visuales: Tecnología, Diseño, Marketing, Finanzas, Data, IA, Salud, Educación, etc.).
+Paso 4: Habilidades actuales (selección de pills de una lista predefinida más opción de escribir las propias).
+Paso 5: Objetivos laborales (qué busca: primer empleo, cambio de carrera, prácticas, trabajo remoto, etc.).
+
+Al terminar el onboarding, el dashboard se personaliza automáticamente mostrando microproyectos relevantes para su carrera e intereses, recomendaciones de habilidades a desarrollar según su objetivo laboral, y un mensaje de bienvenida contextualizado.

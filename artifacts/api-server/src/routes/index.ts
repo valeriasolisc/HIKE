@@ -9,6 +9,9 @@ import validationsRouter from "./validations";
 import microprojectsRouter from "./microprojects";
 import recruiterRouter from "./recruiter";
 import dashboardRouter from "./dashboard";
+import applicationsRouter from "./applications";
+import messagesRouter from "./messages";
+import savedCandidatesRouter from "./saved_candidates";
 
 const router: IRouter = Router();
 
@@ -22,5 +25,8 @@ router.use(validationsRouter);
 router.use(microprojectsRouter);
 router.use(recruiterRouter);
 router.use(dashboardRouter);
+router.use(applicationsRouter);
+router.use(messagesRouter);
+router.use(savedCandidatesRouter);
 
 export default router;
