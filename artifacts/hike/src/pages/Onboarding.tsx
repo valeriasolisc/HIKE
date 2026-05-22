@@ -35,11 +35,11 @@ const S_SKILLS = [
 ];
 
 /* ─── RECRUITER DATA ───────────────────────────────────────── */
-const R_TALENT_TYPES = [
-  { id: "junior",  icon: GraduationCap, label: "Junior / Practicantes",     desc: "Perfiles en formación con alta motivación" },
-  { id: "mid",     icon: TrendingUp,    label: "Semi-senior / Mid-level",    desc: "2–4 años de experiencia comprobada" },
-  { id: "senior",  icon: Star,          label: "Senior / Especialistas",     desc: "Expertos con proyectos de impacto" },
-  { id: "all",     icon: Users,         label: "Todo tipo de talento",       desc: "Estoy explorando opciones y perfiles" },
+const R_OBJECTIVES = [
+  { id: "junior",       icon: Search,       label: "Busco talento junior con potencial",      desc: "Perfiles en formación que se destacan por habilidades y motivación" },
+  { id: "practicante",  icon: GraduationCap, label: "Necesito practicantes o trainees",         desc: "Estudiantes universitarios en búsqueda de experiencia real" },
+  { id: "retos",        icon: Zap,           label: "Quiero evaluar talento mediante retos",    desc: "Publicar microproyectos para ver cómo resuelven problemas reales" },
+  { id: "cantera",      icon: Building2,     label: "Quiero construir una cantera de talento",  desc: "Identificar futuros líderes y mantener contacto con ellos" },
 ];
 
 const R_INDUSTRIES = [
@@ -290,8 +290,8 @@ function StudentOnboarding() {
 function RecruiterOnboarding() {
   const [step, setStep] = useState(1);
   const [, setLocation] = useLocation();
+  const [objective, setObjective] = useState<string | null>(null);
   const [companyName, setCompanyName] = useState("");
-  const [talentType, setTalentType] = useState<string | null>(null);
   const [industries, setIndustries] = useState<string[]>([]);
   const [skillsNeeded, setSkillsNeeded] = useState<string[]>([]);
   const [goal, setGoal] = useState<string | null>(null);
@@ -303,8 +303,8 @@ function RecruiterOnboarding() {
     setSkillsNeeded(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
 
   const canProceed = () => {
-    if (step === 1) return !!companyName.trim();
-    if (step === 2) return !!talentType;
+    if (step === 1) return !!objective;
+    if (step === 2) return !!companyName.trim();
     if (step === 3) return industries.length > 0;
     if (step === 4) return skillsNeeded.length > 0 && !!goal;
     return true;
@@ -319,18 +319,18 @@ function RecruiterOnboarding() {
 
         <CardHeader className="text-center pt-8 pb-2">
           <div className="text-xs font-bold text-indigo-500/70 uppercase tracking-widest mb-1">
-            {["Tu empresa", "Perfil buscado", "Sectores", "Habilidades y objetivo", "Todo listo"][step - 1]}
+            {["Tu objetivo", "Tu empresa", "Sectores", "Habilidades y objetivo", "Todo listo"][step - 1]}
           </div>
           <CardTitle className="text-2xl font-bold text-slate-900">
-            {step === 1 && "¿A qué empresa representas?"}
-            {step === 2 && "¿Qué nivel de talento buscas?"}
+            {step === 1 && "¿Cuál es tu objetivo de contratación?"}
+            {step === 2 && "¿A qué empresa representas?"}
             {step === 3 && "¿En qué sectores opera tu empresa?"}
             {step === 4 && "¿Qué priorizas al evaluar talento?"}
             {step === 5 && "¡Tu cuenta HIKE está lista!"}
           </CardTitle>
           <p className="text-sm text-slate-500 mt-1">
-            {step === 1 && "Esta información aparecerá en tus microproyectos y búsquedas de talento"}
-            {step === 2 && "Selecciona el tipo de perfil que necesitas contratar con más frecuencia"}
+            {step === 1 && "Selecciona el objetivo que mejor describe lo que buscas como reclutador"}
+            {step === 2 && "Esta información aparecerá en tus microproyectos y búsquedas de talento"}
             {step === 3 && "Te mostraremos talento especializado en tu industria"}
             {step === 4 && "Configura tus filtros de búsqueda y define tu objetivo principal en HIKE"}
             {step === 5 && "Tu panel está configurado con el modo anti-sesgo activo por defecto"}
@@ -339,6 +339,15 @@ function RecruiterOnboarding() {
 
         <CardContent className="p-6 pt-4">
           {step === 1 && (
+            <div className="grid gap-3">
+              {R_OBJECTIVES.map(o => (
+                <SelectableCard key={o.id} selected={objective === o.id}
+                  onClick={() => setObjective(o.id)} icon={o.icon} label={o.label} desc={o.desc} />
+              ))}
+            </div>
+          )}
+
+          {step === 2 && (
             <div className="space-y-5">
               <div>
                 <label className="text-sm font-semibold text-slate-700 block mb-2">
@@ -364,15 +373,6 @@ function RecruiterOnboarding() {
                   </ul>
                 </div>
               </div>
-            </div>
-          )}
-
-          {step === 2 && (
-            <div className="grid gap-3">
-              {R_TALENT_TYPES.map(t => (
-                <SelectableCard key={t.id} selected={talentType === t.id}
-                  onClick={() => setTalentType(t.id)} icon={t.icon} label={t.label} desc={t.desc} />
-              ))}
             </div>
           )}
 
@@ -439,7 +439,7 @@ function RecruiterOnboarding() {
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-indigo-400" />
                     <span className="text-slate-600">
-                      Talento buscado: <strong>{R_TALENT_TYPES.find(t => t.id === talentType)?.label}</strong>
+                      Objetivo: <strong>{R_OBJECTIVES.find(o => o.id === objective)?.label}</strong>
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
