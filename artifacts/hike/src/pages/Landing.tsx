@@ -31,8 +31,7 @@ export default function Landing() {
       <nav className="border-b bg-white/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="HIKE Logo" className="h-8 w-8" />
-            <span className="font-bold text-xl text-primary tracking-tight">HIKE</span>
+            <img src="/logo.png" alt="HIKE" className="h-10 w-auto" />
           </div>
           <div className="flex items-center gap-4">
             <Button variant="ghost" asChild className="hidden sm:inline-flex">
@@ -189,9 +188,8 @@ export default function Landing() {
       <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
           <div className="col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <img src="/logo.png" alt="HIKE" className="h-8 w-8 brightness-0 invert" />
-              <span className="font-bold text-xl text-white">HIKE</span>
+            <div className="mb-4">
+              <img src="/logo.png" alt="HIKE" className="h-8 w-auto brightness-0 invert" />
             </div>
             <p className="text-sm max-w-sm">
               Plataforma de identidad profesional para jóvenes peruanos. Validamos el talento a través del mérito y la práctica.
